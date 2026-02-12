@@ -1,5 +1,6 @@
 import express from "express";
-import Employee from "../models/Employee.js";
+import Employee from "../models/Schema.Emp.js";
+import TokenBlacklist from "../models/TokenBlacklist.js";
 import jwt from "jsonwebtoken";
 
 const router = express.Router();
@@ -7,13 +8,13 @@ const JWT_SECRET = "secret123";
 
 // Sign Up
 router.post("/signup", async (req, res) => {
-  const { name, age, email, password, role } = req.body;
+  const { name, email, password, role } = req.body;
 
   try {
     const existingUser = await Employee.findOne({ email });
     if (existingUser) return res.status(400).json({ message: "Email already exists" });
 
-    const employee = await Employee.create({ name, age, email, password, role });
+    const employee = await Employee.create({ name, email, password, role });
     const token = jwt.sign({ id: employee._id, role: employee.role }, JWT_SECRET, { expiresIn: "1d" });
 
     res.json({ message: "User created", token, employee });
@@ -40,6 +41,28 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+
+
+
+
+// logout
+
+router.post("/logout", async (req, res) => {
+  const token = req.headers["authorization"]?.split(" ")[1];
+
+  if (!token) {
+    return res.status(400).json({ message: "No token provided" });
+  }
+
+  // خزّني التوكن في القائمة السوداء
+  await TokenBlacklist.create({ token });
+
+  res.json({ message: "Logged out successfully" });
+});
+
+
+
 
 
 
