@@ -1,4 +1,6 @@
 import express from "express";
+import { userValidation } from "../services/auth.validation.js";
+import { validate } from "../middleware/validate.js";
 import Employee from "../models/Schema.Emp.js";
 import TokenBlacklist from "../models/TokenBlacklist.js";
 import jwt from "jsonwebtoken";
@@ -7,7 +9,9 @@ const router = express.Router();
 const JWT_SECRET = "secret123";
 
 // Sign Up
-router.post("/signup", async (req, res) => {
+router.post("/signup",
+  validate(userValidation.signUp),
+   async (req, res) => {
   const { name, email, password, role } = req.body;
 
   try {
@@ -17,7 +21,7 @@ router.post("/signup", async (req, res) => {
     const employee = await Employee.create({ name, email, password, role });
     const token = jwt.sign({ id: employee._id, role: employee.role }, JWT_SECRET, { expiresIn: "1d" });
 
-    res.json({ message: "User created", token, employee });
+    res.json({ message: "User created", token, data:employee });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -36,7 +40,7 @@ router.post("/login", async (req, res) => {
 
     const token = jwt.sign({ id: employee._id, role: employee.role }, JWT_SECRET, { expiresIn: "1d" });
 
-    res.json({ message: "Login successful", token, employee });
+    res.json({ message: "Login successful", token,employee});
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -45,6 +49,8 @@ router.post("/login", async (req, res) => {
 
 
 
+
+///////////
 
 // logout
 

@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
 
+
 const employeeSchema = new mongoose.Schema({
    
    employeeNumber: { type: String, required: true, unique: true },
@@ -19,8 +20,15 @@ const employeeSchema = new mongoose.Schema({
    faceId: { type: String,  unique: true, sparse: true }, // sparse عشان يسمح بقيم null
    cardNumber: { type: String, unique: true, sparse: true }, // sparse عشان يسمح بقيم null
     // hasParkingAccess: { type: Boolean, default: false }, // صلاحية دخول الباركنج
+  
 
    qr_code: String,
+     tokens:[
+      {
+        type: String,
+        required: true
+      }
+    ]
 
   
 }, { timestamps: true });
@@ -50,7 +58,7 @@ employeeSchema.pre("validate", async function (next) {
 // ////////////////////////////////////////////////////////////
 employeeSchema.pre("save", async function(next) {
   if (!this.isModified("password")) return next();
-  const salt = await bcrypt.genSalt(10);
+  const salt = await bcrypt.genSalt(8);
   this.password = await bcrypt.hash(this.password, salt);
   next();
 });
@@ -63,6 +71,24 @@ employeeSchema.methods.comparePassword = async function(password) {
   
 
 /////////////////////////////////////////////////////////////
+
+
+// employeeSchema.methods.generateAuthToken = async function () {
+//   const employee = this;
+
+//   const token = jwt.sign(
+//     { id: employee._id, role: employee.role },
+//     process.env.JWT_SECRET,
+//     { expiresIn: "1d" }
+//   );
+
+//   employee.tokens.push({ token });
+
+//   await employee.save();
+
+//   return token;
+// };
+
 
 const Employee = mongoose.model("Employee", employeeSchema);
 export default Employee;
