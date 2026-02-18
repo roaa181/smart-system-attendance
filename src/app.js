@@ -46,7 +46,10 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 // MongoDB 
-mongoose.connect("mongodb://localhost:27017/project")
+mongoose.connect("mongodb://mongo:uEtuYoZoHzOmlXcYkQzmOOHycOskXmUO@mongodb.railway.internal:27017",{
+    useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
   .then(() => console.log("Connected to MongoDB successfully"))
   .catch(err => console.log("Connection Error:", err));
 
@@ -70,7 +73,7 @@ app.use("/api/rfid", rfidRoutes);
 
 
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server running on http://192.168.8.124:${PORT}`);
+  console.log(`Server running on :${PORT}`);
 });
 
 // ///////
