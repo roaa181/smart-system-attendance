@@ -34,6 +34,10 @@ import parkingRoutes from "./routes/parkingRoutes.js";
 import authMiddleware from "./middleware/authMiddle.js";
 import rfidRoutes from "./routes/rfidRoutes.js";
 
+import dotenv from "dotenv";
+dotenv.config();
+
+
 
 
 
@@ -46,10 +50,8 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 // MongoDB 
-mongoose.connect("mongodb://mongo:uEtuYoZoHzOmlXcYkQzmOOHycOskXmUO@mongodb.railway.internal:27017",{
-    useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect("mongodb://mongo:uEtuYoZoHzOmlXcYkQzmOOHycOskXmUO@mongodb.railway.internal:27017")
+
   .then(() => console.log("Connected to MongoDB successfully"))
   .catch(err => console.log("Connection Error:", err));
 

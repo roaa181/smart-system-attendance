@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 
 
@@ -23,12 +24,14 @@ const employeeSchema = new mongoose.Schema({
   
 
    qr_code: String,
-     tokens:[
-      {
+      tokens: [
+    {
+      token: {
         type: String,
         required: true
       }
-    ]
+    }
+  ]
 
   
 }, { timestamps: true });
@@ -72,22 +75,26 @@ employeeSchema.methods.comparePassword = async function(password) {
 
 /////////////////////////////////////////////////////////////
 
+// ميثود لإنشاء توكن وتخزينه
+employeeSchema.methods.generateAuthToken = async function () {
+  const employee = this;
 
-// employeeSchema.methods.generateAuthToken = async function () {
-//   const employee = this;
+  // المفتاح السري مؤقت للتجربة
+  const token = jwt.sign(
+    { id: employee._id, role: employee.role },
+    "mytemporarysecretkey", // بدل process.env.JWT_SECRET
+    { expiresIn: "1d" }
+  );
 
-//   const token = jwt.sign(
-//     { id: employee._id, role: employee.role },
-//     process.env.JWT_SECRET,
-//     { expiresIn: "1d" }
-//   );
+  // إضافة التوكن للـ array
+  employee.tokens.push({ token });
 
-//   employee.tokens.push({ token });
+  await employee.save();
 
-//   await employee.save();
+  console.log("Tokens after push:", employee.tokens); // للتأكد
+  return token;
+};
 
-//   return token;
-// };
 
 
 const Employee = mongoose.model("Employee", employeeSchema);
