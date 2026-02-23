@@ -2,15 +2,11 @@
 // import express from "express";
 // import { createAttendance } from "../controllers/attendanceController.js";
 
-
-
-// const router = express.Router();
-
-// router.post("/", createAttendance); 
-
 import express from "express";
 import {createAttendanceByCard, createAttendanceByFace}
  from "../controllers/attendanceController.js";
+import authMiddleware from "../middleware/authMiddle.js";
+import { getMonthlyReport } from "../controllers/attendanceController.js";
 
 const router = express.Router();
 
@@ -18,7 +14,7 @@ router.post("/card", createAttendanceByCard);
 router.post("/face", createAttendanceByFace);
 
 
-
+router.get("/report", authMiddleware, getMonthlyReport);
 
 // //////////////////////////////////////////////////////////////////////////
 

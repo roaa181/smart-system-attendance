@@ -39,8 +39,12 @@ router.post("/login", async (req, res) => {
     const isMatch = await employee.comparePassword(password);
     if (!isMatch) return res.status(400).json({ message: "Invalid email or password" });
     
-
-     const token = await employee.generateAuthToken();
+    const token = jwt.sign(
+    { id: employee._id, role: employee.role },
+    process.env.JWT_SECRET,
+    { expiresIn: "1d" }
+);
+    //  const token = await employee.generateAuthToken();
 
     res.json({ message: "Login successful", token,employee});
   } catch (err) {

@@ -26,13 +26,6 @@ export const createAttendanceByCard = async (req, res) => {
       return res.status(403).json({ message: "You have already finished your day" });
     }
 
-    // const lastRecord = await Attendance.findOne({ employee: employee._id }).sort({ timestamp: -1}); //ترتيب تنازلي 
-    // let action = "checkin";
-    // if (lastRecord && lastRecord.action === "checkin") action = "checkout";
-
-    // const record = await Attendance.create({ employee: employee._id, action, method, status: "success" });
-
-    // res.json({ message: "Attendance recorded", data: record });
 
   } catch (error) {
     console.error(error);
@@ -78,6 +71,91 @@ export const createAttendanceByFace = async (req, res) => {
   }
 };
 
+
+// ////////////////////////////////////////////////////////////////////
+
+//                تقرير شهري عن الحضور والانصراف
+
+export const getMonthlyReport = async (req, res) => {
+  try {
+    const employeeId = req.user._id;
+
+    // نحدد الشهر الحالي
+    const start = new Date();
+    start.setDate(1);
+    start.setHours(0, 0, 0, 0);
+
+    const end = new Date(start);
+    end.setMonth(end.getMonth() + 1);
+
+    // نجيب كل العمليات الناجحة
+    const records = await Attendance.find({
+      employee: employeeId,
+      status: "success",
+      timestamp: { $gte: start, $lt: end }
+    }).sort({ timestamp: 1 });
+
+    const report = {};
+    let presentDays = 0;
+    let lateDays = 0;
+
+    records.forEach(record => {
+      const date = record.timestamp.toISOString().split("T")[0];
+
+      if (!report[date]) {
+        report[date] = {
+          checkIn: null,
+          checkOut: null,
+          status: "Absent"
+        };
+      }
+
+      if (record.action === "checkin") {
+        report[date].checkIn = record.timestamp;
+
+        const hour = record.timestamp.getHours();
+        if (hour >= 9) {
+          report[date].status = "Late";
+        } else {
+          report[date].status = "Present";
+        }
+      }
+
+      if (record.action === "checkout") {
+        report[date].checkOut = record.timestamp;
+      }
+    });
+
+    // نحسب الإحصائيات
+    Object.values(report).forEach(day => {
+      if (day.status === "Present") presentDays++;
+      if (day.status === "Late") {
+        presentDays++;
+        lateDays++;
+      }
+    });
+
+    const totalDaysInMonth = new Date(
+      start.getFullYear(),
+      start.getMonth() + 1,
+      0
+    ).getDate();
+
+    const absentDays = totalDaysInMonth - presentDays;
+
+    res.json({
+      summary: {
+        presentDays,
+        lateDays,
+        absentDays
+      },
+      details: report
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
 // //////////////////////////////////////////////////////////////////
 
 
