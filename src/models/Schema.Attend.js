@@ -8,8 +8,17 @@ const attendanceSchema = new mongoose.Schema({
   method: { type: String, required: true, default: "RFID" },
   timestamp: { type: Date, default: Date.now },
   deviceId: String,
-  status: { type: String, enum: ["success", "denied"], default: "success" }
-}, { timestamps: true });
+  // status: { type: String, enum: ["success", "denied"], default: "success" }
+  
+  status: {
+  type: String,
+  enum: ["success", "denied"],
+  default: "success"
+}
+
+}, 
+ 
+{ timestamps: true });
 
 
 export default mongoose.model("Attendance", attendanceSchema);

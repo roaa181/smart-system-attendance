@@ -33,7 +33,7 @@ import vehicleRoutes from "./routes/vehicleRoutes.js";
 import parkingRoutes from "./routes/parkingRoutes.js";
 import authMiddleware from "./middleware/authMiddle.js";
 import rfidRoutes from "./routes/rfidRoutes.js";
-import { getMonthlyReport } from "./controllers/attendanceController.js";
+
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -68,7 +68,7 @@ app.use("/api/vehicle", vehicleRoutes);    // تسجيل العربيات
 app.use("/api/parking", parkingRoutes);    // دخول وخروج الباركنج
 app.use("/api/secure", authMiddleware);
 app.use("/api/rfid", rfidRoutes);
-app.get("/api/monthly-report", authMiddleware, getMonthlyReport); // تقرير شهري عن الحضور والانصراف
+
 
 // أي راوت تحت /api/secure يحتاج توكن صالح للدخول
 // app.use('/api', attendanceRoutes); // لو حبيت تخلي الراوت الأساسي للتسجيل في /api بدل /api/attendance

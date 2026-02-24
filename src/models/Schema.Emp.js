@@ -75,23 +75,18 @@ employeeSchema.methods.comparePassword = async function(password) {
 
 /////////////////////////////////////////////////////////////
 
-// ميثود لإنشاء توكن وتخزينه
 employeeSchema.methods.generateAuthToken = async function () {
   const employee = this;
 
-  // المفتاح السري مؤقت للتجربة
   const token = jwt.sign(
     { id: employee._id, role: employee.role },
-    "mytemporarysecretkey", // بدل process.env.JWT_SECRET
+    process.env.JWT_SECRET,
     { expiresIn: "1d" }
   );
 
-  // إضافة التوكن للـ array
   employee.tokens.push({ token });
-
   await employee.save();
 
-  console.log("Tokens after push:", employee.tokens); // للتأكد
   return token;
 };
 
