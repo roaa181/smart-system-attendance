@@ -19,10 +19,10 @@ router.post("/signup",
     if (existingUser) return res.status(400).json({ message: "Email already exists" });
 
     const employee = await Employee.create({ name, email, password, role });
-   const token = await employee.generateAuthToken();
+  //  const token = await employee.generateAuthToken();
 
 
-    res.json({ message: "User created", token, data:employee });
+    res.json({ message: "User created", data:employee });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
