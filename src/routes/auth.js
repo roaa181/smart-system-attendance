@@ -3,7 +3,7 @@ import { userValidation } from "../services/auth.validation.js";
 import { validate } from "../middleware/validate.js";
 import Employee from "../models/Schema.Emp.js";
 import TokenBlacklist from "../models/TokenBlacklist.js";
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 
 const router = express.Router();
 const JWT_SECRET = "secret123";
