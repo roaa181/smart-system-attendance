@@ -22,6 +22,8 @@
 // });
 
 ///////////////////////////////////////////////////////////////////////
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import mongoose from "mongoose";
 
@@ -33,15 +35,6 @@ import vehicleRoutes from "./routes/vehicleRoutes.js";
 import parkingRoutes from "./routes/parkingRoutes.js";
 import authMiddleware from "./middleware/authMiddle.js";
 import rfidRoutes from "./routes/rfidRoutes.js";
-
-
-import dotenv from "dotenv";
-dotenv.config();
-
-
-
-
-
 
 
 
