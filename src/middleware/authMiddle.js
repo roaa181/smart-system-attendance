@@ -33,5 +33,6 @@ const authMiddleware = async (req, res, next) => {
     return res.status(401).json({ message: "Invalid or expired token" });
   }
 };
+console.log("SECRET =", process.env.JWT_SECRET);
 
 export default authMiddleware;

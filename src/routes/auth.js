@@ -3,10 +3,10 @@ import { userValidation } from "../services/auth.validation.js";
 import { validate } from "../middleware/validate.js";
 import Employee from "../models/Schema.Emp.js";
 import TokenBlacklist from "../models/TokenBlacklist.js";
-// import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
-const JWT_SECRET = "secret123";
+
 
 // Sign Up
 router.post("/signup",
@@ -39,12 +39,12 @@ router.post("/login", async (req, res) => {
     const isMatch = await employee.comparePassword(password);
     if (!isMatch) return res.status(400).json({ message: "Invalid email or password" });
     
-    // const token = jwt.sign(
-    // { id: employee._id, role: employee.role },
-    // process.env.JWT_SECRET,
-    // { expiresIn: "1d" }
-// );
-     const token = await employee.generateAuthToken();
+    const token = jwt.sign(
+    { id: employee._id, role: employee.role },
+    process.env.JWT_SECRET,
+    { expiresIn: "1d" }
+);
+    //  const token = await employee.generateAuthToken();
 
     res.json({ message: "Login successful", token,employee});
   } catch (err) {
