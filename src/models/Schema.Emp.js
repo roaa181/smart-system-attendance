@@ -75,20 +75,20 @@ employeeSchema.methods.comparePassword = async function(password) {
 
 /////////////////////////////////////////////////////////////
 
-// employeeSchema.methods.generateAuthToken = async function () {
-//   const employee = this;
+employeeSchema.methods.generateAuthToken = async function () {
+  const employee = this;
 
-//   const token = jwt.sign(
-//     { id: employee._id, role: employee.role },
-//     process.env.JWT_SECRET,
-//     { expiresIn: "1d" }
-//   );
+  const token = jwt.sign(
+    { id: employee._id, role: employee.role },
+    process.env.JWT_SECRET,
+    { expiresIn: "1d" }
+  );
 
-//   employee.tokens.push({ token });
-//   await employee.save();
+  employee.tokens.push({ token });
+  await employee.save();
 
-//   return token;
-// };
+  return token;
+};
 
 
 
