@@ -51,9 +51,9 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 // MongoDB 
-// mongoose.connect("mongodb://mongo:uEtuYoZoHzOmlXcYkQzmOOHycOskXmUO@mongodb.railway.internal:27017" )
+mongoose.connect("mongodb://mongo:uEtuYoZoHzOmlXcYkQzmOOHycOskXmUO@mongodb.railway.internal:27017" )
 
-    mongoose.connect("mongodb://localhost:27017/project")
+    // mongoose.connect("mongodb://localhost:27017/project")
 
 
   .then(() => console.log("Connected to MongoDB successfully"))
