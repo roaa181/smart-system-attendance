@@ -22,7 +22,7 @@ router.post("/signup",
   //  const token = await employee.generateAuthToken();
 
 
-    res.json({ message: "User created", data:employee });
+    res.json({ message: "User created",token, emp:employee });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
