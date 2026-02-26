@@ -73,7 +73,7 @@ app.use("/api/rfid", rfidRoutes);
 // أي راوت تحت /api/secure يحتاج توكن صالح للدخول
 // app.use('/api', attendanceRoutes); // لو حبيت تخلي الراوت الأساسي للتسجيل في /api بدل /api/attendance
 
-
+console.log("SECRET:", process.env.JWT_SECRET);
 
 // ///////////////////////////////////////////////////
 
