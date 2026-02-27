@@ -15,6 +15,8 @@ const authMiddleware = async (req, res, next) => {
     if (blacklisted) {
       return res.status(401).json({ message: "Token has been invalidated" });
     }
+    console.log("AUTH HEADER:", req.headers.authorization);
+     console.log("TOKEN AFTER SPLIT:", token);
 
     // 2️⃣ Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -34,6 +36,6 @@ const authMiddleware = async (req, res, next) => {
   return res.status(401).json({ message: error.message });
 }
 };
-console.log("SECRET =", process.env.JWT_SECRET);
+
 
 export default authMiddleware;
