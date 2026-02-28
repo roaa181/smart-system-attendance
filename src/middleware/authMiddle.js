@@ -10,7 +10,7 @@ const authMiddleware = async (req, res, next) => {
       return res.status(401).json({ message: "No token provided" });
     }
 
-    // 1️⃣ Check blacklist
+    //  Check blacklist
     const blacklisted = await TokenBlacklist.findOne({ token });
     if (blacklisted) {
       return res.status(401).json({ message: "Token has been invalidated" });
@@ -18,16 +18,16 @@ const authMiddleware = async (req, res, next) => {
     console.log("AUTH HEADER:", req.headers.authorization);
      console.log("TOKEN AFTER SPLIT:", token);
 
-    // 2️⃣ Verify token
+    //  Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // 3️⃣ Get employee from DB
+    //  Get employee from DB
     const employee = await Employee.findById(decoded.id);
     if (!employee) {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    // 4️⃣ Attach full employee object
+    //  Attach full employee object
     req.user = employee;
 
     next();

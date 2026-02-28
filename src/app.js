@@ -35,6 +35,9 @@ import vehicleRoutes from "./routes/vehicleRoutes.js";
 import parkingRoutes from "./routes/parkingRoutes.js";
 import authMiddleware from "./middleware/authMiddle.js";
 import rfidRoutes from "./routes/rfidRoutes.js";
+import employeeRoutes from "./routes/employeeRoutes.js";
+
+
 
 
 
@@ -61,6 +64,7 @@ app.use("/api/vehicle", vehicleRoutes);    // تسجيل العربيات
 app.use("/api/parking", parkingRoutes);    // دخول وخروج الباركنج
 app.use("/api/secure", authMiddleware);
 app.use("/api/rfid", rfidRoutes);
+app.use("/api/employee", employeeRoutes); //get/update profile - لازم يكون تحت الـ authMiddleware عشان الموظف لازم يكون مسجل دخول عشان يقدر يشوف أو يعدل بياناته
 
 
 // أي راوت تحت /api/secure يحتاج توكن صالح للدخول
