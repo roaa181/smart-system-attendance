@@ -70,7 +70,7 @@ router.post("/logout", async (req, res) => {
   // خزّني التوكن في القائمة السوداء
   await TokenBlacklist.create({ token });
 
-  res.json({ message: "Logged out successfully" });
+  res.json({ message: "logout successfully" });
 });
 
 
