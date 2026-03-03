@@ -5,9 +5,9 @@
   "description": "",
   "main": "src/app.js",
   "scripts": {
-  "start": "node src/app.js",
-  "dev": "nodemon src/app.js"
-},
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -21,6 +21,7 @@
     "moment": "^2.30.1",
     "mongodb": "^4.15.0",
     "mongoose": "^8.19.1",
+    "nodemailer": "^8.0.1",
     "qrcode": "^1.5.4"
   }
 }

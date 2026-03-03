@@ -16,6 +16,8 @@ const employeeSchema = new mongoose.Schema({
     //  زي منيو مطعم enumeration //
     // اختار طبق من اللي موجود
     // مش اطلب حاجة من دماغي
+    otp: String,
+    otpExpires: Date,
     default: "employee",
    },
    faceId: { type: String,  unique: true, sparse: true }, // sparse عشان يسمح بقيم null
