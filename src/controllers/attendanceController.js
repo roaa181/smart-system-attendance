@@ -146,9 +146,7 @@ export const createAttendanceByQR = async (req, res) => {
     }
 
     // const employee = await Employee.findOne({ employeeNumber: qr_code });
-    const employee = await Employee.findOne({ 
-  employeeNumber: `EMP${qr_code}` 
-});
+const employee = await Employee.findOne({ qr_code });
     if (!employee) {
       return res.status(404).json({ status: "denied", message: "Invalid QR code" });
     }
