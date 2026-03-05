@@ -15,7 +15,7 @@ router.post("/face", createAttendanceByFace);
 
 
 router.get("/report", authMiddleware, getMonthlyReport);
-
+router.post("/qr", createAttendanceByQR);
 // //////////////////////////////////////////////////////////////////////////
 
 // import authMiddleware from "../middleware/auth.js";
