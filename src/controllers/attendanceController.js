@@ -113,22 +113,44 @@ export const createAttendanceByFace = async (req, res) => {
 //    POST /api/attendance/qr
 //    body: { token }
 // ─────────────────────────────────────────────
+// export const createAttendanceByQR = async (req, res) => {
+//   try {
+//     const { token } = req.body;
+
+//     if (!token) {
+//       return res.status(400).json({ message: "QR token is required" });
+//     }
+
+//     // دور على الموظف صاحب الـ QR ده
+//     const employee = await Employee.findOne({ qr_code: token });
+//     if (!employee) {
+//       return res.status(404).json({ status: "denied", message: "Invalid QR code" });
+//     }
+
+//     const result = await handleAttendance(employee._id, "QR");
+
+//     const message = result.action === "checkin" ? "Check-in recorded" : "Check-out recorded";
+//     return res.json({ message, data: result.record });
+
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Server error", error: error.message });
+//   }
+// };
 export const createAttendanceByQR = async (req, res) => {
   try {
-    const { token } = req.body;
+    const { qr_code } = req.body;
 
-    if (!token) {
-      return res.status(400).json({ message: "QR token is required" });
+    if (!qr_code) {
+      return res.status(400).json({ message: "qr_code is required" });
     }
 
-    // دور على الموظف صاحب الـ QR ده
-    const employee = await Employee.findOne({ qr_code: token });
+    const employee = await Employee.findOne({ employeeNumber: qr_code });
     if (!employee) {
       return res.status(404).json({ status: "denied", message: "Invalid QR code" });
     }
 
     const result = await handleAttendance(employee._id, "QR");
-
     const message = result.action === "checkin" ? "Check-in recorded" : "Check-out recorded";
     return res.json({ message, data: result.record });
 

@@ -1,6 +1,6 @@
 import express from "express";
 import QRCode from "qrcode";
-import crypto from "crypto";
+// import crypto from "crypto";
 import Employee from "../models/Schema.Emp.js";
 import authMiddleware from "../middleware/authMiddle.js";
 
@@ -17,7 +17,7 @@ router.get("/my-qr", authMiddleware, async (req, res) => {
 
     // لو مفيش QR أو انتهى → ولّد واحد جديد
     if (!employee.qr_code || !employee.qr_expires || employee.qr_expires < new Date()) {
-      const token = crypto.randomUUID(); // token فريد
+      employee.qr_code = employee.employeeNumber; // ← EMP0001 مثلاً
 
       // بيخلص الساعة 11:59 PM النهارده
       const expires = new Date();
