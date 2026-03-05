@@ -17,7 +17,8 @@ router.get("/my-qr", authMiddleware, async (req, res) => {
 
     // لو مفيش QR أو انتهى → ولّد واحد جديد
     if (!employee.qr_code || !employee.qr_expires || employee.qr_expires < new Date()) {
-      employee.qr_code = employee.employeeNumber; // ← EMP0001 مثلاً
+      // employee.qr_code = employee.employeeNumber; // ← EMP0001 مثلاً
+      employee.qr_code = employee.employeeNumber.slice(3); // 0028
 
       // بيخلص الساعة 11:59 PM النهارده
       const expires = new Date();
