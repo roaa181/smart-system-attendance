@@ -21,13 +21,14 @@ router.get("/my-qr", authMiddleware, async (req, res) => {
       employee.qr_code = employee.employeeNumber.slice(3); // 0028
 
       // بيخلص الساعة 11:59 PM النهارده
-      const expires = new Date();
-      expires.setHours(23, 59, 59, 999);
+     if (!employee.qr_code || !employee.qr_expires || employee.qr_expires < new Date()) {
+  const expires = new Date();
+  expires.setHours(23, 59, 59, 999);
 
-      employee.qr_code = token;
-      employee.qr_expires = expires;
-      await employee.save();
-    }
+  employee.qr_code = employee.employeeNumber.slice(3); // ← 0028
+  employee.qr_expires = expires;
+  await employee.save();
+}
 
     // حوّل الـ token لصورة QR
     const qrImage = await QRCode.toDataURL(employee.qr_code);
