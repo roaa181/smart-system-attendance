@@ -12,6 +12,7 @@ import vehicleRoutes from "./routes/vehicleRoutes.js";
 import parkingRoutes from "./routes/parkingRoutes.js";
 import rfidRoutes from "./routes/rfidRoutes.js";
 import employeeRoutes from "./routes/employeeRoutes.js";
+import qrRoutes from "./routes/qrRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -40,7 +41,8 @@ app.use("/api/face", faceRoutes);             // ربط الـ Face ID
 app.use("/api/vehicle", vehicleRoutes);       // تسجيل العربيات
 app.use("/api/parking", parkingRoutes);       // دخول وخروج الباركنج
 app.use("/api/rfid", rfidRoutes);             // RFID attendance
-app.use("/api/employee", employeeRoutes);     // profile
+app.use("/api/employee", employeeRoutes); 
+app.use("/api/qr", qrRoutes);    // profile
 
 // ─────────────────────────────────────────
 //   Start Server
