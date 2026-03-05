@@ -3,7 +3,7 @@
 // import { createAttendance } from "../controllers/attendanceController.js";
 
 import express from "express";
-import {createAttendanceByCard, createAttendanceByFace}
+import {createAttendanceByCard, createAttendanceByFace, createAttendanceByQR}
  from "../controllers/attendanceController.js";
 import authMiddleware from "../middleware/authMiddle.js";
 import { getMonthlyReport } from "../controllers/attendanceController.js";
