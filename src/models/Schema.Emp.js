@@ -15,6 +15,7 @@ const employeeSchema = new mongoose.Schema(
       enum: ["employee", "security", "admin"],
       default: "employee",
     },
+    isBanned: { type: Boolean, default: false },
 
     // FIX: اتنقلوا لبره role
     otp: { type: String, default: null },

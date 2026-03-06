@@ -13,6 +13,7 @@ import parkingRoutes from "./routes/parkingRoutes.js";
 import rfidRoutes from "./routes/rfidRoutes.js";
 import employeeRoutes from "./routes/employeeRoutes.js";
 import qrRoutes from "./routes/qrRoutes.js";
+import adminRoutes from "./routes/adminroutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -42,7 +43,8 @@ app.use("/api/vehicle", vehicleRoutes);       // تسجيل العربيات
 app.use("/api/parking", parkingRoutes);       // دخول وخروج الباركنج
 app.use("/api/rfid", rfidRoutes);             // RFID attendance
 app.use("/api/employee", employeeRoutes); 
-app.use("/api/qr", qrRoutes);    // profile
+app.use("/api/qr", qrRoutes); 
+app.use("/api/admin", adminRoutes);   // profile
 
 // ─────────────────────────────────────────
 //   Start Server
