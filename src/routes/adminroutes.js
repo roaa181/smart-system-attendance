@@ -4,7 +4,7 @@ import adminMiddleware from "../middleware/adminmiddle.js";
 import Employee from "../models/Schema.Emp.js";
 import Attendance from "../models/Schema.Attend.js";
 import ParkingLog from "../models/parkinglog.js";
-import { sendOTPEmail } from "../utils/sendEmail.js";
+import { sendNotificationEmail } from "../utils/sendEmail.js";
 import PDFDocument from "pdfkit";
 
 const router = express.Router();
@@ -58,7 +58,7 @@ router.put("/employees/:id", async (req, res) => {
 
     const employee = await Employee.findById(req.params.id);
     if (!employee) {
-      return res.status(404).json({ message: "Employee not found" });
+      return res.status(403).json({ message: "Employee not found" });
     }
 
     if (name) employee.name = name;
@@ -285,7 +285,7 @@ router.post("/notify/employee", async (req, res) => {
       return res.status(404).json({ message: "Employee not found" });
     }
 
-    await sendOTPEmail(employee.email, message); // بنستخدم نفس الـ sendEmail
+    await sendNotificationEmail(employee.email, subject, message);
 
     res.json({ message: `Notification sent to ${employee.name}` });
   } catch (error) {
@@ -307,7 +307,7 @@ router.post("/notify/all", async (req, res) => {
 
     // بعت لكل الموظفين
     const results = await Promise.allSettled(
-      employees.map((emp) => sendOTPEmail(emp.email, message))
+     employees.map((emp) => sendNotificationEmail(emp.email, subject, message))
     );
 
     const failed = results.filter((r) => r.status === "rejected").length;
