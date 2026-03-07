@@ -4,7 +4,6 @@ import adminMiddleware from "../middleware/adminmiddle.js";
 import Employee from "../models/Schema.Emp.js";
 import Attendance from "../models/Schema.Attend.js";
 import ParkingLog from "../models/parkinglog.js";
-import Device from "../models/Device.js";
 import { sendOTPEmail } from "../utils/sendEmail.js";
 import PDFDocument from "pdfkit";
 
@@ -328,14 +327,14 @@ router.post("/notify/all", async (req, res) => {
 //   📡 DEVICE STATUS
 // ─────────────────────────────────────────
 
-// GET /api/admin/devices
-router.get("/devices", async (req, res) => {
-  try {
-    const devices = await Device.find().sort({ lastSeen: -1 });
-    res.json({ total: devices.length, data: devices });
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
-  }
-});
+// // GET /api/admin/devices
+// router.get("/devices", async (req, res) => {
+//   try {
+//     const devices = await Device.find().sort({ lastSeen: -1 });
+//     res.json({ total: devices.length, data: devices });
+//   } catch (error) {
+//     res.status(500).json({ message: "Server error", error: error.message });
+//   }
+// });
 
 export default router;
