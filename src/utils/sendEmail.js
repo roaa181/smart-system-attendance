@@ -1,4 +1,4 @@
- import { Resend } from "resend";
+import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -10,6 +10,17 @@ export const sendOTPEmail = async (to, otp) => {
     text: `Your OTP code is: ${otp}`,
   });
 };
+
+// ← أضيفي الـ function دي
+export const sendNotificationEmail = async (to, subject, message) => {
+  await resend.emails.send({
+    from: "onboarding@resend.dev",
+    to,
+    subject,
+    text: message,
+  });
+};
+
 
 
 
