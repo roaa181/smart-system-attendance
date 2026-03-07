@@ -25,7 +25,7 @@ router.post("/signup", validate(userValidation.signUp), async (req, res) => {
     const token = await employee.generateAuthToken();
 
     // FIX: مش بنبعت password ولا tokens في الـ response
-    const { password: _, tokens: __, otp: ___, otpExpires: ____, ...safeEmployee } =
+    const { password: _, token: __, otp: ___, otpExpires: ____, ...safeEmployee } =
       employee.toObject();
 
     res.status(201).json({ message: "User created", token, employee: safeEmployee });
@@ -59,7 +59,7 @@ router.post("/login", async (req, res) => {
     );
 
     // FIX: مش بنبعت password ولا tokens في الـ response
-    const { password: _, tokens: __, otp: ___, otpExpires: ____, ...safeEmployee } =
+    const { password: _, token: __, otp: ___, otpExpires: ____, ...safeEmployee } =
       employee.toObject();
 
     res.json({ message: "Login successful", token, employee: safeEmployee });
