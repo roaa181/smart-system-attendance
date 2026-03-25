@@ -224,34 +224,34 @@ export const createAttendanceByCardVerified = async (req, res) => {
 // //  POST /api/attendance/qr-verified
 // //  body: { qr_code, faceId }
 // // ─────────────────────────────────────────────
-// export const createAttendanceByQRVerified = async (req, res) => {
-//   try {
-//     const { qr_code, faceId } = req.body;
+export const createAttendanceByQRVerified = async (req, res) => {
+  try {
+    const { qr_code, faceId } = req.body;
 
-//     if (!qr_code || !faceId) {
-//       return res.status(400).json({ message: "qr_code and faceId are required" });
-//     }
+    if (!qr_code || !faceId) {
+      return res.status(400).json({ message: "qr_code and faceId are required" });
+    }
 
-//     // دور على الموظف بالـ QR
-//     const employee = await Employee.findOne({ qr_code });
-//     if (!employee) {
-//       return res.status(404).json({ status: "denied", message: "QR not recognized" });
-//     }
+    // دور على الموظف بالـ QR
+    const employee = await Employee.findOne({ qr_code });
+    if (!employee) {
+      return res.status(404).json({ status: "denied", message: "QR not recognized" });
+    }
 
-//     // تأكد إن الـ faceId بتاع نفس الموظف
-//     if (employee.faceId !== faceId) {
-//       return res.status(403).json({ status: "denied", message: "Face does not match QR owner" });
-//     }
+    // تأكد إن الـ faceId بتاع نفس الموظف
+    if (employee.faceId !== faceId) {
+      return res.status(403).json({ status: "denied", message: "Face does not match QR owner" });
+    }
 
-//     const result = await handleAttendance(employee._id, "QR");
-//     const message = result.action === "checkin" ? "Check-in recorded" : "Check-out recorded";
-//     return res.json({ message, data: result.record });
+    const result = await handleAttendance(employee._id, "QR");
+    const message = result.action === "checkin" ? "Check-in recorded" : "Check-out recorded";
+    return res.json({ message, data: result.record });
 
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Server error", error: error.message });
-//   }
-// };
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
 
 
 
