@@ -29,7 +29,9 @@ app.use(cors({
   methods: "GET,POST,PUT,DELETE",
   allowedHeaders: "Content-Type,Authorization"
 }));
-app.options("*", cors());
+app.get('/:any(*)', (req, res) => {
+  res.send('Catch all route')
+});
 
 app.use(express.json());
 
