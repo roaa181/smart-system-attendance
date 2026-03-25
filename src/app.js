@@ -1,3 +1,76 @@
+// import dotenv from "dotenv";
+// dotenv.config();
+
+// import express from "express";
+// import cors from "cors";
+// import mongoose from "mongoose";
+
+// import authRoutes from "./routes/auth.js";
+// import CardRoutes from "./routes/CardRoutes.js";
+// import attendanceRoutes from "./routes/attendance.js";
+// import faceRoutes from "./routes/faceRoutes.js";
+// import vehicleRoutes from "./routes/vehicleRoutes.js";
+// import parkingRoutes from "./routes/parkingRoutes.js";
+// import rfidRoutes from "./routes/rfidRoutes.js";
+// import employeeRoutes from "./routes/employeeRoutes.js";
+// import qrRoutes from "./routes/qrRoutes.js";
+// import adminRoutes from "./routes/adminroutes.js";
+// import deviceRoutes from "./routes/deviceRoutes.js";
+
+// const app = express();
+// const PORT = process.env.PORT || 3000;
+
+// // ─────────────────────────────────────────
+// //   Middleware
+// // ─────────────────────────────────────────
+// app.use(cors({
+//   origin: true,
+//   credentials: true,
+//   methods: "GET,POST,PUT,DELETE",
+//   allowedHeaders: "Content-Type,Authorization"
+// }));
+// app.get('/:any(*)', (req, res) => {
+//   res.send('Catch all route')
+// });
+
+// app.use(express.json());
+
+// // ─────────────────────────────────────────
+// //   MongoDB Connection
+// // ─────────────────────────────────────────
+// const MONGO_URI = process.env.MONGO_URI
+//   || "mongodb://mongo:uEtuYoZoHzOmlXcYkQzmOOHycOskXmUO@mongodb.railway.internal:27017";
+
+// mongoose
+//   .connect(MONGO_URI)
+//   .then(() => console.log("Connected to MongoDB successfully"))
+//   .catch((err) => console.log("Connection Error:", err));
+
+// // ─────────────────────────────────────────
+// //   Routes
+// // ─────────────────────────────────────────
+// app.use("/api/auth", authRoutes);             // login / signup / logout / OTP
+// app.use("/api/attendance", attendanceRoutes); // تسجيل الحضور (card / face / qr)
+// app.use("/api/card", CardRoutes);             // ربط الكارت بموظف
+// app.use("/api/face", faceRoutes);             // ربط الـ Face ID
+// app.use("/api/vehicle", vehicleRoutes);       // تسجيل العربيات
+// app.use("/api/parking", parkingRoutes);       // دخول وخروج الباركنج
+// app.use("/api/rfid", rfidRoutes);             // RFID attendance
+// app.use("/api/employee", employeeRoutes);     // profile
+// app.use("/api/qr", qrRoutes);                 // QR code
+// app.use("/api/admin", adminRoutes);           // admin routes
+// app.use("/api/device", deviceRoutes);         // فتح وغلق البوابات
+
+// // ─────────────────────────────────────────
+// //   Start Server
+// // ─────────────────────────────────────────
+// app.listen(PORT, "0.0.0.0", () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
+
+///////
+///////////////////////////////////////////////////////////////////////
+
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -10,7 +83,7 @@ import CardRoutes from "./routes/CardRoutes.js";
 import attendanceRoutes from "./routes/attendance.js";
 import faceRoutes from "./routes/faceRoutes.js";
 import vehicleRoutes from "./routes/vehicleRoutes.js";
-import parkingRoutes from "./routes/parkingRoutes.js";
+import parkingRoutes from "./routes/parking.js";
 import rfidRoutes from "./routes/rfidRoutes.js";
 import employeeRoutes from "./routes/employeeRoutes.js";
 import qrRoutes from "./routes/qrRoutes.js";
@@ -21,7 +94,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ─────────────────────────────────────────
-//   Middleware
+// Middleware
 // ─────────────────────────────────────────
 app.use(cors({
   origin: true,
@@ -29,17 +102,15 @@ app.use(cors({
   methods: "GET,POST,PUT,DELETE",
   allowedHeaders: "Content-Type,Authorization"
 }));
-app.get('/:any(*)', (req, res) => {
-  res.send('Catch all route')
-});
 
+// Parse JSON bodies
 app.use(express.json());
 
 // ─────────────────────────────────────────
-//   MongoDB Connection
+// MongoDB Connection
 // ─────────────────────────────────────────
-const MONGO_URI = process.env.MONGO_URI
-  || "mongodb://mongo:uEtuYoZoHzOmlXcYkQzmOOHycOskXmUO@mongodb.railway.internal:27017";
+const MONGO_URI = process.env.MONGO_URI || 
+  "mongodb://mongo:uEtuYoZoHzOmlXcYkQzmOOHycOskXmUO@mongodb.railway.internal:27017";
 
 mongoose
   .connect(MONGO_URI)
@@ -47,31 +118,33 @@ mongoose
   .catch((err) => console.log("Connection Error:", err));
 
 // ─────────────────────────────────────────
-//   Routes
+// Routes
 // ─────────────────────────────────────────
-app.use("/api/auth", authRoutes);             // login / signup / logout / OTP
-app.use("/api/attendance", attendanceRoutes); // تسجيل الحضور (card / face / qr)
-app.use("/api/card", CardRoutes);             // ربط الكارت بموظف
-app.use("/api/face", faceRoutes);             // ربط الـ Face ID
-app.use("/api/vehicle", vehicleRoutes);       // تسجيل العربيات
-app.use("/api/parking", parkingRoutes);       // دخول وخروج الباركنج
-app.use("/api/rfid", rfidRoutes);             // RFID attendance
-app.use("/api/employee", employeeRoutes);     // profile
-app.use("/api/qr", qrRoutes);                 // QR code
-app.use("/api/admin", adminRoutes);           // admin routes
-app.use("/api/device", deviceRoutes);         // فتح وغلق البوابات
+app.use("/api/auth", authRoutes);
+app.use("/api/attendance", attendanceRoutes);
+app.use("/api/card", CardRoutes);
+app.use("/api/face", faceRoutes);
+app.use("/api/vehicle", vehicleRoutes);
+app.use("/api/parking", parkingRoutes);
+app.use("/api/rfid", rfidRoutes);
+app.use("/api/employee", employeeRoutes);
+app.use("/api/qr", qrRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/device", deviceRoutes);
 
 // ─────────────────────────────────────────
-//   Start Server
+// Catch-all route for unmatched paths (404)
+// ─────────────────────────────────────────
+app.use((req, res) => {
+  res.status(404).json({ message: "Route not found" });
+});
+
+// ─────────────────────────────────────────
+// Start Server
 // ─────────────────────────────────────────
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-///////
-///////////////////////////////////////////////////////////////////////
-
-
 
 
 
