@@ -83,7 +83,7 @@ import CardRoutes from "./routes/CardRoutes.js";
 import attendanceRoutes from "./routes/attendance.js";
 import faceRoutes from "./routes/faceRoutes.js";
 import vehicleRoutes from "./routes/vehicleRoutes.js";
-import parkingRoutes from "./routes/parking.js";
+import parkingRoutes from "./routes/parkingRoutes.js";
 import rfidRoutes from "./routes/rfidRoutes.js";
 import employeeRoutes from "./routes/employeeRoutes.js";
 import qrRoutes from "./routes/qrRoutes.js";
