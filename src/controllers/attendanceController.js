@@ -84,29 +84,29 @@ const handleAttendance = async (employeeId, method) => {
 //    POST /api/attendance/qr
 //    body: { token }
 // ─────────────────────────────────────────────
-export const createAttendanceByQR = async (req, res) => {
-  try {
-    const { qr_code } = req.body;
+// export const createAttendanceByQR = async (req, res) => {
+//   try {
+//     const { qr_code } = req.body;
 
-    if (!qr_code) {
-      return res.status(400).json({ message: "qr_code is required" });
-    }
+//     if (!qr_code) {
+//       return res.status(400).json({ message: "qr_code is required" });
+//     }
 
-    // const employee = await Employee.findOne({ employeeNumber: qr_code });
-const employee = await Employee.findOne({ qr_code });
-    if (!employee) {
-      return res.status(404).json({ status: "denied", message: "Invalid QR code" });
-    }
+//     // const employee = await Employee.findOne({ employeeNumber: qr_code });
+// const employee = await Employee.findOne({ qr_code });
+//     if (!employee) {
+//       return res.status(404).json({ status: "denied", message: "Invalid QR code" });
+//     }
 
-    const result = await handleAttendance(employee._id, "QR");
-    const message = result.action === "checkin" ? "Check-in recorded" : "Check-out recorded";
-    return res.json({ message, data: result.record });
+//     const result = await handleAttendance(employee._id, "QR");
+//     const message = result.action === "checkin" ? "Check-in recorded" : "Check-out recorded";
+//     return res.json({ message, data: result.record });
 
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error", error: error.message });
-  }
-};
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Server error", error: error.message });
+//   }
+// };
 
 // ─────────────────────────────────────────────
 //    تسجيل الحضور بالوجه (Face)

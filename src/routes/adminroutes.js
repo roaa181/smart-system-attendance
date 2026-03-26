@@ -13,7 +13,7 @@ const router = express.Router();
 router.use(authMiddleware, adminMiddleware);
 
 // ─────────────────────────────────────────
-//   👥 EMPLOYEES MANAGEMENT
+//   EMPLOYEES MANAGEMENT
 // ─────────────────────────────────────────
 
 // جيب كل الموظفين
@@ -125,7 +125,7 @@ router.delete("/employees/:id", async (req, res) => {
 });
 
 // ─────────────────────────────────────────
-//   📋 ATTENDANCE REPORTS
+//    ATTENDANCE REPORTS
 // ─────────────────────────────────────────
 
 // حضور وغياب كل الموظفين
@@ -220,7 +220,7 @@ router.get("/attendance/export", async (req, res) => {
 });
 
 // ─────────────────────────────────────────
-//   📊 DASHBOARD ANALYTICS
+//    DASHBOARD ANALYTICS
 // ─────────────────────────────────────────
 
 // GET /api/admin/dashboard
@@ -267,7 +267,7 @@ router.get("/dashboard", async (req, res) => {
 });
 
 // ─────────────────────────────────────────
-//   🔔 NOTIFICATIONS
+//    NOTIFICATIONS
 // ─────────────────────────────────────────
 
 // بعت notification لموظف معين
@@ -324,7 +324,7 @@ router.post("/notify/all", async (req, res) => {
 });
 
 // ─────────────────────────────────────────
-//   📡 DEVICE STATUS
+//    DEVICE STATUS
 // ─────────────────────────────────────────
 
 // // GET /api/admin/devices
