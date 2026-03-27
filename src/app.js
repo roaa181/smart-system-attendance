@@ -112,7 +112,7 @@ app.use(express.json());
 const MONGO_URI = process.env.MONGO_URI || 
   "mongodb://mongo:uEtuYoZoHzOmlXcYkQzmOOHycOskXmUO@mongodb.railway.internal:27017";
 
-mongoose
+ mongoose
   .connect(MONGO_URI)
   .then(() => console.log("Connected to MongoDB successfully"))
   .catch((err) => console.log("Connection Error:", err));
