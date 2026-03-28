@@ -26,10 +26,9 @@ router.post("/signup", validate(userValidation.signUp), async (req, res) => {
     const token = await employee.generateAuthToken();
 
     // FIX: مش بنبعت password ولا tokens في الـ response
-    const {__v: _____, password: _, tokens: __, otp: ___,  otpExpires: ____, ...safeEmployee } =
-      employee.toObject();
+   const { tokens, otp, otpExpires, __v, isBanned, qr_code, qr_expires, faceId, cardNumber, createdAt, updatedAt, ...safeEmployee } = employee.toObject();
 
-    res.status(201).json({ message: "User created", token, employee: safeEmployee });
+res.status(201).json({ message: "User created", token, employee: safeEmployee });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -60,10 +59,9 @@ router.post("/login", async (req, res) => {
     );
 
     // FIX: مش بنبعت password ولا tokens في الـ response
-    const {__v: _____, password: _, tokens: __, otp: ___,  otpExpires: ____, ...safeEmployee } =
-      employee.toObject();
+    const { tokens, otp, otpExpires, __v, isBanned, qr_code, qr_expires, faceId, cardNumber, createdAt, updatedAt, ...safeEmployee } = employee.toObject();
 
-    res.json({ message: "Login successful", token, employee: safeEmployee });
+res.status(201).json({ message: "Login successful", token, employee: safeEmployee });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
