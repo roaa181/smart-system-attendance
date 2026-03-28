@@ -28,7 +28,10 @@ const authMiddleware = async (req, res, next) => {
     }
 
     //  Attach full employee object
-    req.user = employee;
+    const { password, tokens, otp, otpExpires, __v, ...safeEmployee } = employee.toObject();
+
+req.user = safeEmployee;
+
 
     next();
   } catch (error) {
