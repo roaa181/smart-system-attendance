@@ -224,7 +224,7 @@ export const createAttendanceByCardVerified = async (req, res) => {
 // //  POST /api/attendance/qr-verified
 // //  body: { qr_code, faceId }
 // // ─────────────────────────────────────────────
-export const createAttendanceByQRVerified = async (req, res) => {
+ export const createAttendanceByQRVerified = async (req, res) => {
   try {
     const { qr_code, faceId } = req.body;
 
@@ -238,8 +238,20 @@ export const createAttendanceByQRVerified = async (req, res) => {
       return res.status(404).json({ status: "denied", message: "QR not recognized" });
     }
 
-    // تأكد إن الـ faceId بتاع نفس الموظف
-    if (employee.faceId !== faceId) {
+    // تأكد إن الموظف عنده faceId مسجل
+    if (!employee.faceId) {
+      return res.status(403).json({ status: "denied", message: "No face registered for this employee" });
+    }
+
+    // تحويل الـ faceId من string لـ array
+    const descriptor1 = new Float32Array(employee.faceId.split(',').map(Number));
+    const descriptor2 = new Float32Array(faceId.split(',').map(Number));
+
+    // حساب المسافة
+    const distance = euclideanDistance(descriptor1, descriptor2);
+
+    // لو المسافة أكبر من 0.6 يبقى مش نفس الشخص
+    if (distance > 0.6) {
       return res.status(403).json({ status: "denied", message: "Face does not match QR owner" });
     }
 
@@ -252,6 +264,10 @@ export const createAttendanceByQRVerified = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+
+
+
 
 
 
