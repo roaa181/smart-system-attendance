@@ -1,88 +1,88 @@
-// import Employee from "../models/Schema.Emp.js";
- 
-// export const assignCardToEmployee = async (req, res) => {
-//   try {
-//     const { employeeNumber, cardNumber } = req.body;
- 
-//     if (!employeeNumber || !cardNumber) {
-//       return res.status(400).json({ message: "employeeNumber and cardNumber are required" });
-//     }
- 
-//     // التأكد إن الكارت مش مستخدم قبل كده
-//     const existingCard = await Employee.findOne({ cardNumber });
-//     if (existingCard) {
-//       return res.status(400).json({ message: "This card is already assigned to another employee" });
-//     }
- 
-//     // دور على الموظف بالـ employeeNumber
-//     const employee = await Employee.findOne({ employeeNumber });
-//     if (!employee) {
-//       return res.status(404).json({ message: "Employee not found" });
-//     }
- 
-//     // حفظ الكارت
-//     employee.cardNumber = cardNumber;
-//     await employee.save();
- 
-//     res.json({
-//       message: "Card assigned successfully",
-//       employeeNumber: employee.employeeNumber,
-//       cardNumber: employee.cardNumber
-//     });
- 
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// };
-// ///////////////////////////////////////////////////////////////////////////
-
-                                  //  card auto assignment //
-
 import Employee from "../models/Schema.Emp.js";
-
-export const assignCardAuto= async (req, res) => {
+ 
+export const assignCard = async (req, res) => {
   try {
-    const { cardNumber } = req.body;
-
-    if (!cardNumber) {
-      return res.status(400).json({
-        message: "cardNumber is required"
-      });
+    const { employeeNumber, cardNumber } = req.body;
+ 
+    if (!employeeNumber || !cardNumber) {
+      return res.status(400).json({ message: "employeeNumber and cardNumber are required" });
     }
-
-    //  تأكد إن الكارت مش مستخدم
-    const usedCard = await Employee.findOne({ cardNumber });
-    if (usedCard) {
-      return res.status(400).json({
-        message: "Card already assigned"
-      });
+ 
+    // التأكد إن الكارت مش مستخدم قبل كده
+    const existingCard = await Employee.findOne({ cardNumber });
+    if (existingCard) {
+      return res.status(400).json({ message: "This card is already assigned to another employee" });
     }
-
-    // هات أول موظف مالوش كارت
-    const employee = await Employee.findOne({ cardNumber: null }).sort({ createdAt: 1 });
-
+ 
+    // دور على الموظف بالـ employeeNumber
+    const employee = await Employee.findOne({ employeeNumber });
     if (!employee) {
-      return res.status(404).json({
-        message: "No available employee to assign card"
-      });
+      return res.status(404).json({ message: "Employee not found" });
     }
-
-    // ربط الكارت
+ 
+    // حفظ الكارت
     employee.cardNumber = cardNumber;
     await employee.save();
-
+ 
     res.json({
       message: "Card assigned successfully",
-      employeeId: employee._id,
-      employeeNumber: employee.employeeNumber
+      employeeNumber: employee.employeeNumber,
+      cardNumber: employee.cardNumber
     });
-
+ 
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
+// ///////////////////////////////////////////////////////////////////////////
+
+                                  //  card auto assignment //
+
+// import Employee from "../models/Schema.Emp.js";
+
+// export const assignCardAuto= async (req, res) => {
+//   try {
+//     const { cardNumber } = req.body;
+
+//     if (!cardNumber) {
+//       return res.status(400).json({
+//         message: "cardNumber is required"
+//       });
+//     }
+
+//     //  تأكد إن الكارت مش مستخدم
+//     const usedCard = await Employee.findOne({ cardNumber });
+//     if (usedCard) {
+//       return res.status(400).json({
+//         message: "Card already assigned"
+//       });
+//     }
+
+//     // هات أول موظف مالوش كارت
+//     const employee = await Employee.findOne({ cardNumber: null }).sort({ createdAt: 1 });
+
+//     if (!employee) {
+//       return res.status(404).json({
+//         message: "No available employee to assign card"
+//       });
+//     }
+
+//     // ربط الكارت
+//     employee.cardNumber = cardNumber;
+//     await employee.save();
+
+//     res.json({
+//       message: "Card assigned successfully",
+//       employeeId: employee._id,
+//       employeeNumber: employee.employeeNumber
+//     });
+
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
 
 //////////////////////////////////////////////////////////////////////////////////////
 
