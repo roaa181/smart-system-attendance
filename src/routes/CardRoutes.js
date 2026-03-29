@@ -1,5 +1,5 @@
 import express from "express";
-import  {assignCardAuto} from "../controllers/CardController.js";
+import  {assignCard} from "../controllers/CardController.js";
 
 const router = express.Router();
 
