@@ -238,10 +238,6 @@ export const createAttendanceByQRVerified = async (req, res) => {
 
 
 
-
-
-
-
 // ─────────────────────────────────────────────
 //    تقرير شهري  
 //    GET /api/attendance/report
