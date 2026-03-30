@@ -113,6 +113,34 @@ const handleAttendance = async (employeeId, method) => {
 //    POST /api/attendance/face
 //    body: { faceId }
 // ─────────────────────────────────────────────
+// export const createAttendanceByFace = async (req, res) => {
+//   try {
+//     const { faceId } = req.body;
+
+//     if (!faceId) {
+//       return res.status(400).json({ message: "faceId is required" });
+//     }
+
+//     const employee = await Employee.findOne({ faceId });
+//     if (!employee) {
+//       return res.status(404).json({ status: "denied", message: "Face not recognized" });
+//     }
+
+//     const result = await handleAttendance(employee._id, "face");
+
+//     const message = result.action === "checkin" ? "Check-in recorded" : "Check-out recorded";
+//     return res.json({ message, data: result.record });
+
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Server error", error: error.message });
+//   }
+// };
+
+const euclideanDistance = (a, b) => {
+  return Math.sqrt(a.reduce((sum, val, i) => sum + Math.pow(val - b[i], 2), 0));
+};
+
 export const createAttendanceByFace = async (req, res) => {
   try {
     const { faceId } = req.body;
@@ -121,13 +149,30 @@ export const createAttendanceByFace = async (req, res) => {
       return res.status(400).json({ message: "faceId is required" });
     }
 
-    const employee = await Employee.findOne({ faceId });
-    if (!employee) {
+    // جيب كل الموظفين اللي عندهم faceId
+    const employees = await Employee.find({ faceId: { $ne: null } });
+    if (!employees.length) {
+      return res.status(404).json({ status: "denied", message: "No faces registered" });
+    }
+
+    // قارن الوجه مع كل موظف
+    const incoming = new Float32Array(faceId.split(',').map(Number));
+    let matchedEmployee = null;
+
+    for (const emp of employees) {
+      const stored = new Float32Array(emp.faceId.split(',').map(Number));
+      const distance = euclideanDistance(incoming, stored);
+      if (distance < 0.6) {
+        matchedEmployee = emp;
+        break;
+      }
+    }
+
+    if (!matchedEmployee) {
       return res.status(404).json({ status: "denied", message: "Face not recognized" });
     }
 
-    const result = await handleAttendance(employee._id, "face");
-
+    const result = await handleAttendance(matchedEmployee._id, "face");
     const message = result.action === "checkin" ? "Check-in recorded" : "Check-out recorded";
     return res.json({ message, data: result.record });
 
@@ -138,11 +183,10 @@ export const createAttendanceByFace = async (req, res) => {
 };
 
 
+
 //////////////////////////////////////////////////////////////////////////////////////
 // حساب المسافة بين وجهين
-const euclideanDistance = (a, b) => {
-  return Math.sqrt(a.reduce((sum, val, i) => sum + Math.pow(val - b[i], 2), 0));
-};
+
 
 // ─────────────────────────────────────────────
 //  تسجيل حضور بالكارت + التحقق من الوجه
