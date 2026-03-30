@@ -1,5 +1,6 @@
 // models/DeviceCommand.js
 import mongoose from "mongoose";
+import Employee from "./Schema.Emp.js"; // لو حبيت تضيف issuedBy كـ reference
 
 const deviceCommandSchema = new mongoose.Schema({
   command: {
@@ -11,6 +12,10 @@ const deviceCommandSchema = new mongoose.Schema({
     type: String,
     enum: ["pending", "done"],
     default: "pending",
+  },
+  issuedBy: {             // اسم الشخص اللي أصدر الأمر
+    type: String,
+    required: true,
   },
   createdAt: {
     type: Date,

@@ -55,29 +55,29 @@ const handleAttendance = async (employeeId, method) => {
 //    POST /api/attendance/card
 //    body: { cardNumber }
 // ─────────────────────────────────────────────
-// export const createAttendanceByCard = async (req, res) => {
-//   try {
-//     const { cardNumber } = req.body;
+export const createAttendanceByCard = async (req, res) => {
+  try {
+    const { cardNumber } = req.body;
 
-//     if (!cardNumber) {
-//       return res.status(400).json({ message: "cardNumber is required" });
-//     }
+    if (!cardNumber) {
+      return res.status(400).json({ message: "cardNumber is required" });
+    }
 
-//     const employee = await Employee.findOne({ cardNumber });
-//     if (!employee) {
-//       return res.status(404).json({ status: "denied", message: "Card not recognized" });
-//     }
+    const employee = await Employee.findOne({ cardNumber });
+    if (!employee) {
+      return res.status(404).json({ status: "denied", message: "Card not recognized" });
+    }
 
-//     const result = await handleAttendance(employee._id, "RFID");
+    const result = await handleAttendance(employee._id, "RFID");
 
-//     const message = result.action === "checkin" ? "Check-in recorded" : "Check-out recorded";
-//     return res.json({ message, data: result.record });
+    const message = result.action === "checkin" ? "Check-in recorded" : "Check-out recorded";
+    return res.json({ message, data: result.record });
 
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Server error", error: error.message });
-//   }
-// };
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
 
 // ─────────────────────────────────────────────
 //    تسجيل الحضور بالـ QR
