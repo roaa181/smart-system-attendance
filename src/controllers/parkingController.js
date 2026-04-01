@@ -260,10 +260,6 @@ const exitParking = async (req, res) => {
   }
 };
 
-export default { enterByCamera, enterByRFID, exitParking };
-
-
-
 ///////////////////////////////////////////////////////////////////
 // ─────────────────────────────────────────────
 //    تقرير شهري للباركينج بدون summary
@@ -317,6 +313,7 @@ export const getParkingReport = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+export default { enterByCamera, enterByRFID, exitParking ,getParkingReport};
 /////////////////////////////////////////////////////////////////////////
 
 // import Employee from "../models/Schema.Emp.js";
