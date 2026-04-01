@@ -89,6 +89,7 @@ import employeeRoutes from "./routes/employeeRoutes.js";
 import qrRoutes from "./routes/qrRoutes.js";
 import adminRoutes from "./routes/adminroutes.js";
 import deviceRoutes from "./routes/deviceRoutes.js";
+import DeviceCommand from "./models/DeviceCommand.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;

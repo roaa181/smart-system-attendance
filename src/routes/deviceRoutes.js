@@ -1,7 +1,7 @@
 // routes/deviceRoutes.js
 import express from "express";
 import DeviceCommand from "../models/DeviceCommand.js";
-import DeviceStatus from "../models/DeviceStatus.js";
+import DeviceStatus from "../models/Devicestatus.js";
 import authMiddleware from "../middleware/authMiddle.js";
 
 const router = express.Router();
