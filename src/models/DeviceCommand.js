@@ -12,10 +12,10 @@ const deviceCommandSchema = new mongoose.Schema({
     enum: ["pending", "done"],
     default: "pending",
   },
-  issuedBy: {             // اسم الشخص اللي أصدر الأمر
-    type: String,
-    required: true,
-  },
+  // issuedBy: {             // اسم الشخص اللي أصدر الأمر
+  //   type: String,
+  //   required: true,
+  // },
   createdAt: {
     type: Date,
     default: Date.now,
