@@ -1,7 +1,7 @@
 // routes/deviceRoutes.js
 import express from "express";
 import DeviceCommand from "../models/DeviceCommand.js";
-import DeviceStatus from "../models/Devicestatus.js";
+import Devicestatus from "../models/Devicestatus.js";
 import authMiddleware from "../middleware/authMiddle.js";
 
 const router = express.Router();
@@ -93,8 +93,8 @@ router.post("/command/done", async (req, res) => {
 // ─────────────────────────────────────────
 router.get("/status", authMiddleware, async (req, res) => {
   try {
-    const gate = await DeviceStatus.findOne({ device: "gate" });
-    const camera = await DeviceStatus.findOne({ device: "camera" });
+    const gate = await Devicestatus.findOne({ device: "gate" });
+    const camera = await Devicestatus.findOne({ device: "camera" });
 
     res.json({
       gate: gate ? gate.status : "unknown",
