@@ -18,5 +18,5 @@ const deviceStatusSchema = new mongoose.Schema({
   },
 });
  
-const DeviceStatus = mongoose.model("DeviceStatus", deviceStatusSchema);
-export default DeviceStatus;
+const Devicestatus = mongoose.model("Devicestatus", deviceStatusSchema);
+export default Devicestatus;
