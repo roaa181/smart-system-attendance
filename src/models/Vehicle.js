@@ -9,3 +9,6 @@ const vehicleSchema = new mongoose.Schema({
 });
 
 export default mongoose.model("Vehicle", vehicleSchema);
+
+
+
