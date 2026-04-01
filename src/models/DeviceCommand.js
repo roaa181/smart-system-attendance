@@ -1,6 +1,5 @@
 // models/DeviceCommand.js
 import mongoose from "mongoose";
-import Employee from "./Schema.Emp.js"; // لو حبيت تضيف issuedBy كـ reference
 
 const deviceCommandSchema = new mongoose.Schema({
   command: {
