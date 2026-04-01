@@ -3,6 +3,7 @@ import Vehicle from "../models/Vehicle.js";
 import ParkingLog from "../models/parkinglog.js";
 
 
+
 const CONFIDENCE_THRESHOLD = 0.8;
 
 // توحيد رقم العربية
