@@ -1,5 +1,5 @@
 
-import Vehicle from "../models/Vehicle.js";
+// import Vehicle from "../models/Vehicle.js";
 import Employee from "../models/Schema.Emp.js";
 
 export const registerVehicle = async (req, res) => {
