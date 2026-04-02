@@ -1,8 +1,5 @@
 import Employee from "../models/Schema.Emp.js";
-import Vehicle from "../models/Vehicle.js";
 import ParkingLog from "../models/parkinglog.js";
-
-
 
 const CONFIDENCE_THRESHOLD = 0.8;
 
@@ -42,9 +39,10 @@ const enterByCamera = async (req, res) => {
       });
     }
 
-    const vehicle = await Vehicle.findOne({ plateNumber });
+    // ✅ نجيب الموظف مباشرة من رقم العربية
+    const employee = await Employee.findOne({ plateNumber });
 
-    if (!vehicle) {
+    if (!employee) {
       return res.status(404).json({
         success: false,
         allowed: false,
@@ -53,7 +51,7 @@ const enterByCamera = async (req, res) => {
     }
 
     const alreadyInside = await ParkingLog.findOne({
-      employeeId: vehicle.employeeId,
+      employeeId: employee._id,
       exitTime: null,
     }).sort({ entryTime: -1 });
 
@@ -79,7 +77,7 @@ const enterByCamera = async (req, res) => {
 
     // ✅ دخول
     await ParkingLog.create({
-      employeeId: vehicle.employeeId,
+      employeeId: employee._id,
       plateNumber,
       method: "camera",
       entryTime: new Date(),
@@ -128,9 +126,8 @@ const enterByRFID = async (req, res) => {
       });
     }
 
-    const vehicle = await Vehicle.findOne({ employeeId: employee._id });
-
-    if (!vehicle) {
+    // ✅ نتأكد إن عنده عربية
+    if (!employee.plateNumber) {
       return res.status(403).json({
         success: false,
         allowed: false,
@@ -166,7 +163,7 @@ const enterByRFID = async (req, res) => {
     // ✅ دخول
     await ParkingLog.create({
       employeeId: employee._id,
-      plateNumber: normalizePlate(vehicle.plateNumber),
+      plateNumber: normalizePlate(employee.plateNumber),
       method: "rfid",
       entryTime: new Date(),
     });
@@ -261,6 +258,8 @@ const exitParking = async (req, res) => {
     });
   }
 };
+
+
 
 ///////////////////////////////////////////////////////////////////
 // ─────────────────────────────────────────────
