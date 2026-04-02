@@ -23,6 +23,7 @@ const employeeSchema = new mongoose.Schema(
 
     faceId: { type: String, unique: true, sparse: true },
     cardNumber: { type: String, unique: true, sparse: true },
+    plateNumber: { type: String, unique: true, sparse: true }, // رقم السيارة
     qr_code: { type: String, default: null },
     qr_expires: { type: Date, default: null },
 

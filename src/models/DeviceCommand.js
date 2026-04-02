@@ -1,6 +1,6 @@
 // models/DeviceCommand.js
 import mongoose from "mongoose";
-
+// import Employee from "./Schema.Emp";
 const deviceCommandSchema = new mongoose.Schema({
   command: {
     type: String,
