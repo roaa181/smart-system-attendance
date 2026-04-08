@@ -49,7 +49,7 @@ export const getProfile = async (req, res) => {
 // };
 
 
-import Employee from "../models/Schema.Emp.js";
+
 
 export const updateProfile = async (req, res) => {
   try {
