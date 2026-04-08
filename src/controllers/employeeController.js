@@ -49,41 +49,47 @@ export const getProfile = async (req, res) => {
 // };
 
 
+import Employee from "../models/Schema.Emp.js";
+
 export const updateProfile = async (req, res) => {
   try {
     const { name, email, password, plateNumber } = req.body;
 
+    // جلب الموظف عن طريق الـ JWT
     const employee = await Employee.findById(req.user._id);
 
     if (!employee) {
       return res.status(404).json({ message: "Employee not found" });
     }
 
-    if (name) employee.name = name;
-    if (email) employee.email = email;
+    // تحديث البيانات الأساسية
+    if (name) employee.name = name.trim();
+    if (email) employee.email = email.trim();
     if (password) employee.password = password;
 
+    // تحديث رقم العربية فقط إذا تم إدخاله
     if (plateNumber) {
       const normalizedPlate = plateNumber.trim().toUpperCase();
 
-      // تحقق من صحة رقم العربية
+      // التحقق من صحة الرقم (اختياري)
       const plateRegex = /^[A-Z0-9]{4,8}$/;
       if (!plateRegex.test(normalizedPlate)) {
         return res.status(400).json({ message: "Invalid plate number format" });
       }
 
-      // تحقق من عدم وجود الرقم عند موظف آخر
+      // التحقق من عدم وجود الرقم عند موظف آخر
       const existingVehicle = await Employee.findOne({ plateNumber: normalizedPlate });
       if (existingVehicle && existingVehicle._id.toString() !== employee._id.toString()) {
         return res.status(400).json({ message: "Plate number already registered to another employee" });
       }
 
+      // حفظ الرقم الجديد
       employee.plateNumber = normalizedPlate;
     }
 
     await employee.save();
 
-    res.json({
+    res.status(200).json({
       message: "Profile updated successfully",
       data: {
         name: employee.name,
