@@ -49,101 +49,41 @@ export const getProfile = async (req, res) => {
 // };
 
 
-export const updateProfile = async (req, res) => {
-  try {
-    const { name, email, password, plateNumber } = req.body;
-
-    const employee = await Employee.findById(req.user._id);
-
-    if (!employee) {
-      return res.status(404).json({ message: "Employee not found" });
-    }
-
-    if (name) employee.name = name;
-    if (email) employee.email = email;
-    if (password) employee.password = password;
-
-    if (plateNumber) {
-      const normalizedPlate = plateNumber.trim().toUpperCase();
-
-      // تحقق من صحة رقم العربية
-      const plateRegex = /^[A-Z0-9]{4,8}$/;
-      if (!plateRegex.test(normalizedPlate)) {
-        return res.status(400).json({ message: "Invalid plate number format" });
-      }
-
-      // تحقق من عدم وجود الرقم عند موظف آخر
-      const existingVehicle = await Employee.findOne({ plateNumber: normalizedPlate });
-      if (existingVehicle && existingVehicle._id.toString() !== employee._id.toString()) {
-        return res.status(400).json({ message: "Plate number already registered to another employee" });
-      }
-
-      employee.plateNumber = normalizedPlate;
-    }
-
-    await employee.save();
-
-    res.json({
-      message: "Profile updated successfully",
-      data: {
-        name: employee.name,
-        email: employee.email,
-        plateNumber: employee.plateNumber
-      }
-    });
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
-};
-
-export default updateProfile;
-
-
-
-
-
-
 // export const updateProfile = async (req, res) => {
 //   try {
 //     const { name, email, password, plateNumber } = req.body;
 
-//     // جلب الموظف عن طريق الـ JWT
 //     const employee = await Employee.findById(req.user._id);
 
 //     if (!employee) {
 //       return res.status(404).json({ message: "Employee not found" });
 //     }
 
-//     // تحديث البيانات الأساسية
-//     if (name) employee.name = name.trim();
-//     if (email) employee.email = email.trim();
+//     if (name) employee.name = name;
+//     if (email) employee.email = email;
 //     if (password) employee.password = password;
 
-//     // تحديث رقم العربية فقط إذا تم إدخاله
 //     if (plateNumber) {
 //       const normalizedPlate = plateNumber.trim().toUpperCase();
 
-//       // التحقق من صحة الرقم (اختياري)
+//       // تحقق من صحة رقم العربية
 //       const plateRegex = /^[A-Z0-9]{4,8}$/;
 //       if (!plateRegex.test(normalizedPlate)) {
 //         return res.status(400).json({ message: "Invalid plate number format" });
 //       }
 
-//       // التحقق من عدم وجود الرقم عند موظف آخر
+//       // تحقق من عدم وجود الرقم عند موظف آخر
 //       const existingVehicle = await Employee.findOne({ plateNumber: normalizedPlate });
 //       if (existingVehicle && existingVehicle._id.toString() !== employee._id.toString()) {
 //         return res.status(400).json({ message: "Plate number already registered to another employee" });
 //       }
 
-//       // حفظ الرقم الجديد
 //       employee.plateNumber = normalizedPlate;
 //     }
 
 //     await employee.save();
 
-//     res.status(200).json({
+//     res.json({
 //       message: "Profile updated successfully",
 //       data: {
 //         name: employee.name,
@@ -159,3 +99,63 @@ export default updateProfile;
 // };
 
 // export default updateProfile;
+
+
+
+
+
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { name, email, password, plateNumber } = req.body;
+
+    // جلب الموظف عن طريق الـ JWT
+    const employee = await Employee.findById(req.user._id);
+
+    if (!employee) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+
+    // تحديث البيانات الأساسية
+    if (name) employee.name = name.trim();
+    if (email) employee.email = email.trim();
+    if (password) employee.password = password;
+
+    // تحديث رقم العربية فقط إذا تم إدخاله
+    if (plateNumber) {
+      const normalizedPlate = plateNumber.trim().toUpperCase();
+
+      // التحقق من صحة الرقم (اختياري)
+      const plateRegex = /^[A-Z0-9]{4,8}$/;
+      if (!plateRegex.test(normalizedPlate)) {
+        return res.status(400).json({ message: "Invalid plate number format" });
+      }
+
+      // التحقق من عدم وجود الرقم عند موظف آخر
+      const existingVehicle = await Employee.findOne({ plateNumber: normalizedPlate });
+      if (existingVehicle && existingVehicle._id.toString() !== employee._id.toString()) {
+        return res.status(400).json({ message: "Plate number already registered to another employee" });
+      }
+
+      // حفظ الرقم الجديد
+      employee.plateNumber = normalizedPlate;
+    }
+
+    await employee.save();
+
+    res.status(200).json({
+      message: "Profile updated successfully",
+      data: {
+        name: employee.name,
+        email: employee.email,
+        plateNumber: employee.plateNumber
+      }
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export default updateProfile;
