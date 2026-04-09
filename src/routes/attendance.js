@@ -14,7 +14,7 @@ const router = express.Router();
 // router.post("/card", createAttendanceByCard);
 // router.post("/card-verified", createAttendanceByCardVerified);
 // router.post("/qr-verified", createAttendanceByQRVerified);
-// router.post("/face", createAttendanceByFace);
+router.post("/face", createAttendanceByFace);
 router.post("/qr", createAttendanceByQR);
 
 

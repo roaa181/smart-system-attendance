@@ -113,29 +113,8 @@ const employee = await Employee.findOne({ qr_code });
 //    POST /api/attendance/face
 //    body: { faceId }
 // ─────────────────────────────────────────────
-export const createAttendanceByFace = async (req, res) => {
-  try {
-    const { faceId } = req.body;
 
-    if (!faceId) {
-      return res.status(400).json({ message: "faceId is required" });
-    }
 
-    const employee = await Employee.findOne({ faceId });
-    if (!employee) {
-      return res.status(404).json({ status: "denied", message: "Face not recognized" });
-    }
-
-    const result = await handleAttendance(employee._id, "face");
-
-    const message = result.action === "checkin" ? "Check-in recorded" : "Check-out recorded";
-    return res.json({ message, data: result.record });
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error", error: error.message });
-  }
-};
 //////////////////////////////////////////////////////////////////
 
 // const euclideanDistance = (a, b) => {
