@@ -6,16 +6,16 @@ import express from "express";
 import { createAttendanceByFace }from "../controllers/attendanceController.js";
 import authMiddleware from "../middleware/authMiddle.js";
 import { getMonthlyReport } from "../controllers/attendanceController.js";
-import { createAttendanceByQR} from "../controllers/attendanceController.js";
-// import { createAttendanceByCardVerified, createAttendanceByQRVerified } from "../controllers/attendanceController.js";
+// import { createAttendanceByQR} from "../controllers/attendanceController.js";
+import { createAttendanceByCardVerified, createAttendanceByQRVerified } from "../controllers/attendanceController.js";
 
 const router = express.Router();
 
 // router.post("/card", createAttendanceByCard);
-// router.post("/card-verified", createAttendanceByCardVerified);
-// router.post("/qr-verified", createAttendanceByQRVerified);
+router.post("/card-verified", createAttendanceByCardVerified);
+router.post("/qr-verified", createAttendanceByQRVerified);
 router.post("/face", createAttendanceByFace);
-router.post("/qr", createAttendanceByQR);
+// router.post("/qr", createAttendanceByQR);
 
 
 router.get("/report", authMiddleware, getMonthlyReport);
