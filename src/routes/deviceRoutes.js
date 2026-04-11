@@ -106,7 +106,7 @@ router.get("/status", authMiddleware, async (req, res) => {
   }
 });
 
-// export default router;
+export default router;
 
 /////////////////////////////////////////////////////////////////////////////////
 // routes/deviceRoutes.js
