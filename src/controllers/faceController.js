@@ -1,40 +1,50 @@
-
-                                      // faceId//
 import Employee from "../models/Schema.Emp.js";
-                              
-export const assignFaceByEmployeeNumber  = async (req, res) => {
+
+export const assignFaceByEmployeeNumber = async (req, res) => {
   try {
     const { employeeNumber, faceId } = req.body;
 
+    console.log("BODY =", req.body);
+    console.log("employeeNumber =", employeeNumber);
+
     if (!employeeNumber || !faceId) {
-      return res.status(400).json({ message: "employeeNumber and faceId are required" });
+      return res.status(400).json({
+        success: false,
+        message: "employeeNumber and faceId are required"
+      });
     }
 
-    // تأكدي إن الـ faceId مش مستخدم قبل كده
-    const existingFace = await Employee.findOne({ faceId });
-    if (existingFace) {
-      return res.status(400).json({ message: "This Face ID is already assigned to another employee" });
-    }
+    const employee = await Employee.findOne({
+      employeeNumber: employeeNumber.trim()
+    });
 
-    // البحث عن الموظف
-    const employee = await Employee.findOne({ employeeNumber });
     if (!employee) {
-      return res.status(404).json({ message: "Employee not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Employee not found",
+        employeeNumber
+      });
     }
 
-    employee.faceId = faceId;
+    employee.faceId = JSON.stringify(faceId);
+
     await employee.save();
 
-    res.json({
-      message: "Face ID assigned successfully",
+    return res.status(200).json({
+      success: true,
+      message: "Face registered successfully",
       employeeNumber: employee.employeeNumber,
-      name: employee.name,
-      faceId: employee.faceId
+      name: employee.name
     });
 
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error", error: error.message });
+    console.error("FACE REGISTER ERROR:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message
+    });
   }
 };
 

@@ -39,7 +39,7 @@ const enterByCamera = async (req, res) => {
       });
     }
 
-    // ✅ نجيب الموظف مباشرة من رقم العربية
+    // نجيب الموظف مباشرة من رقم العربية
     const employee = await Employee.findOne({ plateNumber });
 
     if (!employee) {
@@ -55,7 +55,7 @@ const enterByCamera = async (req, res) => {
       exitTime: null,
     }).sort({ entryTime: -1 });
 
-    // ✅ لو العربية جوه → خروج
+    // لو العربية جوه → خروج
     if (alreadyInside) {
       const exitTime = new Date();
 
@@ -75,7 +75,7 @@ const enterByCamera = async (req, res) => {
       });
     }
 
-    // ✅ دخول
+    //  دخول
     await ParkingLog.create({
       employeeId: employee._id,
       plateNumber,
@@ -126,7 +126,7 @@ const enterByRFID = async (req, res) => {
       });
     }
 
-    // ✅ نتأكد إن عنده عربية
+    //  نتأكد إن عنده عربية
     if (!employee.plateNumber) {
       return res.status(403).json({
         success: false,
@@ -140,7 +140,7 @@ const enterByRFID = async (req, res) => {
       exitTime: null,
     }).sort({ entryTime: -1 });
 
-    // ✅ لو جوه → خروج
+    //  لو جوه → خروج
     if (alreadyInside) {
       const exitTime = new Date();
 
@@ -160,7 +160,7 @@ const enterByRFID = async (req, res) => {
       });
     }
 
-    // ✅ دخول
+    //  دخول
     await ParkingLog.create({
       employeeId: employee._id,
       plateNumber: normalizePlate(employee.plateNumber),
