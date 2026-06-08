@@ -89,6 +89,7 @@ import employeeRoutes from "./routes/employeeRoutes.js";
 import qrRoutes from "./routes/qrRoutes.js";
 import adminRoutes from "./routes/adminroutes.js";
 import deviceRoutes from "./routes/deviceRoutes.js";
+import complaintRoutes from "./routes/Complaint.route.js";
 
 
 const app = express();
@@ -132,7 +133,7 @@ app.use("/api/employee", employeeRoutes);
 app.use("/api/qr", qrRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/device", deviceRoutes);
-
+app.use("/api/complaint", complaintRoutes);
 // ─────────────────────────────────────────
 // Catch-all route for unmatched paths (404)
 // ─────────────────────────────────────────
