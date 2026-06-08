@@ -46,40 +46,31 @@ router.get("/employees", async (req, res) => {
 // POST /api/admin/employees
 router.post("/employees", async (req, res) => {
   try {
-    const {
-      name,
-      email,
-      password,
-      role,
-      department,
-     
-    } = req.body;
-
-    const existing = await Employee.findOne({ email });
-    if (existing) {
-      return res.status(400).json({ message: "Email already exists" });
-    }
+    const body = req.body;
 
     const employee = await Employee.create({
-      name,
-      email,
-      password,
-      role,
-      department,
-   
+      name: body.name || body["user-name"],
+      email: body.email || body["user-email"],
+      password: body.password,
+
+      role: body.role,
+     
+      department: body.department || body.dept || body["user-dept"],
+
+
     });
 
-    const { password: _, tokens: __, ...safe } = employee.toObject();
+    const { password, tokens, ...safe } = employee.toObject();
 
     res.status(201).json({
-      message: "Employee created successfully",
-      data: safe
+      message: "Employee created",
+      data: safe,
     });
 
   } catch (error) {
     res.status(500).json({
       message: "Server error",
-      error: error.message
+      error: error.message,
     });
   }
 });
