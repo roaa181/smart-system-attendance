@@ -46,15 +46,41 @@ router.get("/employees", async (req, res) => {
 // POST /api/admin/employees
 router.post("/employees", async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
-    const existing = await Employee.findOne({ email });
-    if (existing) return res.status(400).json({ message: "Email already exists" });
+    const {
+      name,
+      email,
+      password,
+      role,
+      department,
+     
+    } = req.body;
 
-    const employee = await Employee.create({ name, email, password, role });
+    const existing = await Employee.findOne({ email });
+    if (existing) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+
+    const employee = await Employee.create({
+      name,
+      email,
+      password,
+      role,
+      department,
+   
+    });
+
     const { password: _, tokens: __, ...safe } = employee.toObject();
-    res.status(201).json({ message: "Employee created", data: safe });
+
+    res.status(201).json({
+      message: "Employee created successfully",
+      data: safe
+    });
+
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    res.status(500).json({
+      message: "Server error",
+      error: error.message
+    });
   }
 });
 
@@ -415,6 +441,7 @@ router.get("/attendance", async (req, res) => {
     });
   }
 });
+//////////////////////////////////////////////////////////////////////
 // GET /api/admin/attendance/history
 router.get("/attendance/history", async (req, res) => {
   try {
@@ -478,6 +505,30 @@ router.get("/attendance/history", async (req, res) => {
       message: "Server error",
       error: error.message,
     });
+  }
+});
+/////////////////////////////////////////////////////////////
+// GET /api/admin/attendance/summary
+router.get("/attendance/summary", async (req, res) => {
+  try {
+    const totalEmployees = await Employee.countDocuments({ isBanned: { $ne: true } });
+
+    const presentToday = await Attendance.find({
+      timestamp: {
+        $gte: new Date().setHours(0,0,0,0),
+        $lte: new Date().setHours(23,59,59,999)
+      },
+      action: "checkin"
+    }).distinct("employee");
+
+    res.json({
+      totalEmployees,
+      present: presentToday.length,
+      absent: totalEmployees - presentToday.length,
+    });
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 
